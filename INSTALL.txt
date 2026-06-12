@@ -1,0 +1,54 @@
+Cursor Agent Sleep Hooks
+========================
+
+Prevents your computer from sleeping while a Cursor agent chat session is open.
+Works globally for all Cursor projects (user-level hooks in ~/.cursor).
+
+Requirements
+------------
+- Cursor IDE with Hooks support
+- macOS: built-in caffeinate
+- Windows: PowerShell (built-in)
+- Linux: systemd-inhibit (preferred) or caffeinate
+
+Install
+-------
+
+macOS or Linux (in Terminal):
+
+  cd ~/Documents/cursor-agent-sleep-hooks
+  chmod +x install.sh
+  ./install.sh
+
+Windows (in PowerShell):
+
+  cd $env:USERPROFILE\Documents\cursor-agent-sleep-hooks
+  Set-ExecutionPolicy -Scope Process Bypass
+  .\install.ps1
+
+After install
+-------------
+1. Restart Cursor (or reload window)
+2. Check Cursor Settings -> Hooks
+3. Start an agent chat to test; close chat to release sleep hold
+
+Uninstall
+---------
+
+macOS / Linux:  ./uninstall.sh
+Windows:        .\uninstall.ps1
+
+Manual cleanup (if needed)
+--------------------------
+Delete these files:
+  ~/.cursor/hooks.json
+  ~/.cursor/hooks/prevent-sleep-*
+  ~/.cursor/agent-caffeinate.pid
+  ~/.cursor/agent-caffeinate.count
+
+Windows paths use %USERPROFILE%\.cursor\ instead of ~/.cursor/
+
+Copy to another machine
+-----------------------
+Copy the whole cursor-agent-sleep-hooks folder (USB, git, cloud)
+and run the install script for that OS.

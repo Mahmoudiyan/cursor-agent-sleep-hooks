@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "hooks": {
+    "sessionStart": [
+      {
+        "command": "hooks/prevent-sleep-start.sh"
+      }
+    ],
+    "sessionEnd": [
+      {
+        "command": "hooks/prevent-sleep-stop.sh"
+      }
+    ]
+  }
+}
