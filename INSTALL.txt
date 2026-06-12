@@ -16,6 +16,12 @@ Windows (PowerShell):
 
 Then restart Cursor and check Settings -> Hooks.
 
+Remote SSH (Linux VPS):
+  cp remote-hosts.txt.example remote-hosts.txt
+  ./install-remote.sh --all
+  # or: ./install.sh --remote-all
+
 Uninstall: ./uninstall.sh  (or uninstall.ps1 on Windows)
+Remote uninstall: ./uninstall-remote.sh --all
 
 License: MIT (see LICENSE)

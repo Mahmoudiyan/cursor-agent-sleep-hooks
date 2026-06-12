@@ -50,6 +50,47 @@ Set-ExecutionPolicy -Scope Process Bypass
 3. Start an agent chat → your machine should stay awake
 4. Close the agent chat → sleep behavior returns to normal
 
+## Remote SSH (Linux servers)
+
+When you use **Cursor Remote SSH**, the agent runs on the **remote server**. Hooks must be installed in that server's `~/.cursor/`, not on your laptop.
+
+From your Mac or Linux dev machine (with SSH access):
+
+```bash
+# One host
+./install-remote.sh dev-server
+
+# Several hosts
+./install-remote.sh dev-server staging-server
+
+# Hosts listed in remote-hosts.txt
+cp remote-hosts.txt.example remote-hosts.txt   # first time only
+./install-remote.sh --all
+```
+
+Install **locally and on remotes** in one step:
+
+```bash
+./install.sh --remote-all
+# or
+./install.sh --remote dev-server
+```
+
+Then **reload** the Remote SSH Cursor window and check **Settings → Hooks** on the remote connection.
+
+Uninstall from remotes:
+
+```bash
+./uninstall-remote.sh --all
+```
+
+| Machine | Hooks location | Install command |
+|---------|----------------|-----------------|
+| Your Mac / Windows PC | Local `~/.cursor/` | `./install.sh` or `install.ps1` |
+| Linux VPS (Remote SSH) | Remote `~/.cursor/` | `./install-remote.sh <host>` |
+
+**Note:** Remote hooks keep the **server** awake. Your **local Mac** still needs its own install if you want the laptop awake during local (non-SSH) work.
+
 ## How it works
 
 Cursor runs small scripts at hook events. This repo registers two hooks in `~/.cursor/hooks.json`:
@@ -192,16 +233,22 @@ All scripts are short and open source. They only write to `~/.cursor/` and start
 **Will this conflict with my other hooks?**  
 The installer **replaces** `~/.cursor/hooks.json`. If you already have custom hooks, merge the `sessionStart` / `sessionEnd` entries manually instead of running the installer as-is.
 
+**Remote SSH window has no hooks?**  
+Install on the **remote Linux host** with `./install-remote.sh <ssh-host>`. Local hooks do not apply to Remote SSH sessions.
+
 ## Repository layout
 
 ```
 cursor-agent-sleep-hooks/
-├── install.sh / install.ps1    # OS-detecting installers
+├── install.sh / install.ps1       # Local installers
+├── install-remote.sh              # Deploy to SSH hosts (Linux)
 ├── uninstall.sh / uninstall.ps1
-├── mac/                        # macOS scripts + hooks.json
-├── windows/                    # Windows scripts + hooks.json
-├── linux/                      # Linux scripts + hooks.json
-├── LICENSE                     # MIT
+├── uninstall-remote.sh
+├── remote-hosts.txt.example       # Template for your SSH host list
+├── mac/                           # macOS scripts + hooks.json
+├── windows/                       # Windows scripts + hooks.json
+├── linux/                         # Linux scripts + hooks.json
+├── LICENSE                        # MIT
 └── README.md
 ```
 

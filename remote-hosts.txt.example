@@ -1,0 +1,6 @@
+# SSH host aliases from ~/.ssh/config (one per line)
+# Copy to remote-hosts.txt and edit:
+#   cp remote-hosts.txt.example remote-hosts.txt
+#
+# dev-server
+# staging-server
